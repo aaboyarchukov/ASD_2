@@ -21,5 +21,5 @@ func SumOfNumberDigits(number int) int {
 		return number
 	}
 
-	return number%10 + SumOfNumberDigits(int(number/10))
+	return int(number%10) + SumOfNumberDigits(int(number/10))
 }
