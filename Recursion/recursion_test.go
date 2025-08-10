@@ -47,3 +47,68 @@ func TestSumOfNumberDigits(t *testing.T) {
 		}
 	}
 }
+
+func TestLenOfList(t *testing.T) {
+	tests := []struct {
+		name string
+		list []int
+		len  int
+	}{
+		{"Test1", []int{1, 2, 3, 4}, 4},
+		{"Test2", []int{1}, 1},
+		{"Test3", []int{1, 2}, 2},
+		{"Test4", []int{}, 0},
+	}
+
+	for _, test := range tests {
+		var resultLen int = LenOfList(test.list)
+
+		if resultLen != test.len {
+			t.Errorf("%s failed: wrong answer, want: %d, result is: %d", test.name, test.len, resultLen)
+		}
+	}
+}
+
+func TestLenOfLinkList(t *testing.T) {
+	tests := []struct {
+		name string
+		list LinkedList
+		len  int
+	}{
+		{"Test1", GetLinkedList([]int{1, 2, 3, 4}), 4},
+		{"Test2", GetLinkedList([]int{1}), 1},
+		{"Test3", GetLinkedList([]int{1, 2}), 2},
+		{"Test4", GetLinkedList([]int{}), 0},
+	}
+
+	for _, test := range tests {
+		var resultLen int = LenOfLinkList(test.list)
+
+		if resultLen != test.len {
+			t.Errorf("%s failed: wrong answer, want: %d, result is: %d", test.name, test.len, resultLen)
+		}
+	}
+}
+
+func TestIsPallindrom(t *testing.T) {
+	tests := []struct {
+		name         string
+		word         string
+		isPallindorm bool
+	}{
+		{"Test1", "aba", true},
+		{"Test2", "abba", true},
+		{"Test3", "a", true},
+		{"Test4", "", true},
+		{"Test5", "aa", true},
+		{"Test6", "ab", false},
+	}
+
+	for _, test := range tests {
+		var isPallindorm bool = IsPallindrom(test.word)
+
+		if isPallindorm != test.isPallindorm {
+			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.isPallindorm, isPallindorm)
+		}
+	}
+}
