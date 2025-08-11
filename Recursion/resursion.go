@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // 1. возведение числа N в степень M
 // mem = O(m), t = O(m)
@@ -207,8 +210,38 @@ func ProcessingWord(word string, begin, end int) bool {
 }
 
 // 5. печать только чётных значений из списка
+// mem = O(len(nums)), t = O(len(nums)),
+// len(nums) - size of nums
+func PrintEvenNumbers(nums []int) {
+	if len(nums) == 0 {
+		return
+	}
+
+	if nums[0]%2 == 0 {
+		fmt.Println(nums[0])
+	}
+
+	PrintEvenNumbers(nums[1:])
+}
 
 // 6. печать элементов списка с чётными индексами
+// mem = O(len(nums)), t = O(len(nums)),
+// len(nums) - size of nums
+func PrintNumbersWithEvenIndexes(nums []int) {
+	ProcessingEvenIndex(nums, 0)
+}
+
+func ProcessingEvenIndex(nums []int, index int) {
+	if index > len(nums)-1 {
+		return
+	}
+
+	if index%2 == 0 {
+		fmt.Println(nums[index])
+	}
+
+	ProcessingEvenIndex(nums, index+1)
+}
 
 // 7. нахождение второго максимального числа в списке
 // (с учётом, что максимальных может быть несколько, если они равны).

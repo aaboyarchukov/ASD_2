@@ -112,3 +112,10 @@ func TestIsPallindrom(t *testing.T) {
 		}
 	}
 }
+
+func TestPrintEvenNumbers(t *testing.T) {
+	PrintEvenNumbers([]int{})
+}
+func TestPrintNumbersWithEvenIndexes(t *testing.T) {
+	PrintNumbersWithEvenIndexes([]int{})
+}
