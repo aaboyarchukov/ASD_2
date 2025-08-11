@@ -192,15 +192,18 @@ func LenOfList(list []int) int {
 // mem = O(len(word) / 2) ~ O(len(word)), t = O(len(word) / 2) ~ O(len(word)),
 // len(word) - size of word
 func IsPallindrom(word string) bool {
-	if len(word) < 2 {
+	return ProcessingWord(word, 0, len(word)-1)
+}
+
+func ProcessingWord(word string, begin, end int) bool {
+	if begin >= end {
 		return true
 	}
-
-	if word[0] != word[len(word)-1] {
+	if word[begin] != word[end] {
 		return false
 	}
 
-	return IsPallindrom(word[1 : len(word)-1])
+	return ProcessingWord(word, begin+1, end-1)
 }
 
 // 5. печать только чётных значений из списка
@@ -209,3 +212,8 @@ func IsPallindrom(word string) bool {
 
 // 7. нахождение второго максимального числа в списке
 // (с учётом, что максимальных может быть несколько, если они равны).
+
+// 8. поиск всех файлов в заданном каталоге, включая файлы,
+// расположенные в подкаталогах произвольной вложенности.
+// Для хождения по директориям используйте стандартную функцию.
+// Результат выдавайте списком, List например.
