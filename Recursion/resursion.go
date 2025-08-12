@@ -195,18 +195,18 @@ func LenOfList(list []int) int {
 // mem = O(len(word) / 2) ~ O(len(word)), t = O(len(word) / 2) ~ O(len(word)),
 // len(word) - size of word
 func IsPallindrom(word string) bool {
-	return ProcessingWord(word, 0, len(word)-1)
+	return ProcessingWord(word, 0)
 }
 
-func ProcessingWord(word string, begin, end int) bool {
-	if begin >= end {
+func ProcessingWord(word string, begin int) bool {
+	if begin >= len(word)-1 {
 		return true
 	}
-	if word[begin] != word[end] {
+	if word[begin] != word[len(word)-1-begin] {
 		return false
 	}
 
-	return ProcessingWord(word, begin+1, end-1)
+	return ProcessingWord(word, begin+1)
 }
 
 // 5. печать только чётных значений из списка
@@ -236,11 +236,9 @@ func ProcessingEvenIndex(nums []int, index int) {
 		return
 	}
 
-	if index%2 == 0 {
-		fmt.Println(nums[index])
-	}
+	fmt.Println(nums[index])
 
-	ProcessingEvenIndex(nums, index+1)
+	ProcessingEvenIndex(nums, index+2)
 }
 
 // 7. нахождение второго максимального числа в списке
