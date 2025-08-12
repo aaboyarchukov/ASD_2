@@ -243,8 +243,59 @@ func ProcessingEvenIndex(nums []int, index int) {
 
 // 7. нахождение второго максимального числа в списке
 // (с учётом, что максимальных может быть несколько, если они равны).
+// mem = O(len(numbers)), t = O(len(numbers)),
+// len(numbers) - size of nums
+const DEFAULT_MAX = -1
+
+func FindSecondMax(numbers []int) int {
+	return FindMax(numbers, 0, DEFAULT_MAX, DEFAULT_MAX)
+}
+
+func FindMax(numbers []int, point, max1, max2 int) int {
+	if len(numbers) == 1 {
+		max2 = numbers[point]
+		return max2
+	}
+
+	if point >= len(numbers) {
+		return max2
+	}
+
+	if numbers[point] >= max1 {
+		max2 = max1
+		max1 = numbers[point]
+	}
+
+	return FindMax(numbers, point+1, max1, max2)
+}
 
 // 8. поиск всех файлов в заданном каталоге, включая файлы,
 // расположенные в подкаталогах произвольной вложенности.
 // Для хождения по директориям используйте стандартную функцию.
 // Результат выдавайте списком, List например.
+func FindFiles(path string, fileName string) []string {
+
+	var mass []interface{} = []interface{}{
+		"file.txt", []interface{}{
+			"file.txt",
+			"file.txt",
+			"file.txt",
+			[]interface{}{
+				"file.txt",
+				"file.txt",
+				"file.txt",
+			},
+		},
+	}
+
+	fmt.Println(mass)
+	return []string{}
+}
+
+func IsDir(target interface{}) bool {
+	return false
+}
+
+func ForceThroughFiles() {
+
+}
