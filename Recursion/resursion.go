@@ -245,7 +245,6 @@ func ProcessingEvenIndex(nums []int, index int) {
 // (с учётом, что максимальных может быть несколько, если они равны).
 // mem = O(len(numbers)), t = O(len(numbers)),
 // len(numbers) - size of nums
-const DEFAULT_MAX = -1
 
 func FindSecondMax(numbers []int) int {
 	if len(numbers) == 0 {
