@@ -250,13 +250,14 @@ func FindSecondMax(numbers []int) int {
 	if len(numbers) == 0 {
 		return -1
 	}
-	return FindMax(numbers, 0, numbers[0], numbers[0])
+
+	if len(numbers) == 1 {
+		return numbers[0]
+	}
+	return FindMax(numbers, 0, numbers[0], numbers[1])
 }
 
 func FindMax(numbers []int, point, max1, max2 int) int {
-	if len(numbers) == 1 {
-		return max2
-	}
 
 	if point >= len(numbers) {
 		return max2
@@ -274,7 +275,10 @@ func FindMax(numbers []int, point, max1, max2 int) int {
 // расположенные в подкаталогах произвольной вложенности.
 // Для хождения по директориям используйте стандартную функцию.
 // Результат выдавайте списком, List например.
-func FindFiles(path []interface{}, fileName string) []string {
+// mem = O(len(path) + depth), t = O(len(path)),
+// len(path) - amount of files and directories at path
+// depth - file nesting depth
+func FindFiles(path []interface{}) []string {
 
 	// Example:
 	// var mass []interface{} = []interface{}{
@@ -294,29 +298,35 @@ func FindFiles(path []interface{}, fileName string) []string {
 	// }
 
 	var foundedFiles []string = make([]string, 0)
-	ForceThroughFiles(path, &foundedFiles, fileName, 0)
+	ForceThroughFiles(path, &foundedFiles, 0)
 	return foundedFiles
 }
 
-func ForceThroughFiles(path []interface{}, accumStorage *[]string, fileName string, point int) {
+func ForceThroughFiles(path []interface{}, accumStorage *[]string, point int) {
 	if point >= len(path) {
 		return
 	}
 	switch path[point].(type) {
 	case []interface{}:
 		if array, ok := path[point].([]interface{}); ok {
-			ForceThroughFiles(array, accumStorage, fileName, 0)
-			ForceThroughFiles(path, accumStorage, fileName, point+1)
+			ForceThroughFiles(array, accumStorage, 0)
+			ForceThroughFiles(path, accumStorage, point+1)
 		}
 
 	case string:
 		if row, ok := path[point].(string); ok {
-			if row == fileName {
-				*accumStorage = append(*accumStorage, row)
-				ForceThroughFiles(path, accumStorage, fileName, point+1)
-			}
+			*accumStorage = append(*accumStorage, row)
+			ForceThroughFiles(path, accumStorage, point+1)
 		}
 
 	}
+
+}
+
+// Доп. задача:
+// Генерация всех корректных сбалансированных комбинаций круглых скобок
+// (параметр -- количество открывающих скобок).
+
+func GenerateScopeCombinations(amountOpenedScopes int) {
 
 }

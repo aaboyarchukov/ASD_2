@@ -146,7 +146,6 @@ func TestFindFiles(t *testing.T) {
 	tests := []struct {
 		name        string
 		files       []interface{}
-		fileName    string
 		amountFiles int
 	}{
 		{"Test1", []interface{}{
@@ -163,14 +162,18 @@ func TestFindFiles(t *testing.T) {
 				"file.txt",
 				"file.txt",
 			},
-		}, "file.txt", 10},
+		}, 10},
 	}
 
 	for _, test := range tests {
-		var arrayOfFiles []string = FindFiles(test.files, test.fileName)
+		var arrayOfFiles []string = FindFiles(test.files)
 
 		if len(arrayOfFiles) != test.amountFiles {
 			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.amountFiles, len(arrayOfFiles))
 		}
 	}
+}
+
+func TestGenerateScopeCombinations(t *testing.T) {
+
 }
