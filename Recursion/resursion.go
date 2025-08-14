@@ -248,12 +248,14 @@ func ProcessingEvenIndex(nums []int, index int) {
 const DEFAULT_MAX = -1
 
 func FindSecondMax(numbers []int) int {
-	return FindMax(numbers, 0, DEFAULT_MAX, DEFAULT_MAX)
+	if len(numbers) == 0 {
+		return -1
+	}
+	return FindMax(numbers, 0, numbers[0], numbers[0])
 }
 
 func FindMax(numbers []int, point, max1, max2 int) int {
 	if len(numbers) == 1 {
-		max2 = numbers[point]
 		return max2
 	}
 
@@ -273,29 +275,49 @@ func FindMax(numbers []int, point, max1, max2 int) int {
 // расположенные в подкаталогах произвольной вложенности.
 // Для хождения по директориям используйте стандартную функцию.
 // Результат выдавайте списком, List например.
-func FindFiles(path string, fileName string) []string {
+func FindFiles(path []interface{}, fileName string) []string {
 
-	var mass []interface{} = []interface{}{
-		"file.txt", []interface{}{
-			"file.txt",
-			"file.txt",
-			"file.txt",
-			[]interface{}{
-				"file.txt",
-				"file.txt",
-				"file.txt",
-			},
-		},
+	// Example:
+	// var mass []interface{} = []interface{}{
+	// 	"file.txt", []interface{}{
+	// 		"file.txt",
+	// 		"file.txt",
+	// 		"file.txt",
+	// 		[]interface{}{
+	// 			"file.txt",
+	// 			"file.txt",
+	// 			"file.txt",
+	// 		},
+	// 		"file.txt",
+	// 		"file.txt",
+	// 		"file.txt",
+	// 	},
+	// }
+
+	var foundedFiles []string = make([]string, 0)
+	ForceThroughFiles(path, &foundedFiles, fileName, 0)
+	return foundedFiles
+}
+
+func ForceThroughFiles(path []interface{}, accumStorage *[]string, fileName string, point int) {
+	if point >= len(path) {
+		return
 	}
+	switch path[point].(type) {
+	case []interface{}:
+		if array, ok := path[point].([]interface{}); ok {
+			ForceThroughFiles(array, accumStorage, fileName, 0)
+			ForceThroughFiles(path, accumStorage, fileName, point+1)
+		}
 
-	fmt.Println(mass)
-	return []string{}
-}
+	case string:
+		if row, ok := path[point].(string); ok {
+			if row == fileName {
+				*accumStorage = append(*accumStorage, row)
+				ForceThroughFiles(path, accumStorage, fileName, point+1)
+			}
+		}
 
-func IsDir(target interface{}) bool {
-	return false
-}
-
-func ForceThroughFiles() {
+	}
 
 }

@@ -144,23 +144,33 @@ func TestFindSecondMax(t *testing.T) {
 }
 func TestFindFiles(t *testing.T) {
 	tests := []struct {
-		name      string
-		numbers   []int
-		secondMax int
+		name        string
+		files       []interface{}
+		fileName    string
+		amountFiles int
 	}{
-		{"Test1", []int{1, 2, 3, 4}, 3},
-		{"Test2", []int{1}, 1},
-		{"Test3", []int{1, 1, 1, 1}, 1},
-		{"Test4", []int{1, 2, 3, 4, 4}, 4},
-		{"Test5", []int{}, -1},
-		{"Test6", []int{-1, -2, -1, -3}, -1},
+		{"Test1", []interface{}{
+			"file.txt", []interface{}{
+				"file.txt",
+				"file.txt",
+				"file.txt",
+				[]interface{}{
+					"file.txt",
+					"file.txt",
+					"file.txt",
+				},
+				"file.txt",
+				"file.txt",
+				"file.txt",
+			},
+		}, "file.txt", 10},
 	}
 
 	for _, test := range tests {
-		var secondMax int = FindSecondMax(test.numbers)
+		var arrayOfFiles []string = FindFiles(test.files, test.fileName)
 
-		if secondMax != test.secondMax {
-			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.secondMax, secondMax)
+		if len(arrayOfFiles) != test.amountFiles {
+			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.amountFiles, len(arrayOfFiles))
 		}
 	}
 }
