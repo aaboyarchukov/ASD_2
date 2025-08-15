@@ -327,6 +327,15 @@ func ForceThroughFiles(path []interface{}, accumStorage *[]string, point int) {
 // Генерация всех корректных сбалансированных комбинаций круглых скобок
 // (параметр -- количество открывающих скобок).
 
-func GenerateScopeCombinations(amountOpenedScopes int) {
+func GenerateScopeCombinations(amountOpenedScopes int) []string {
+	var validCombinations []string = make([]string, 0)
+	GenerateCombinations(&validCombinations, "", amountOpenedScopes)
+	return validCombinations
+}
+
+func GenerateCombinations(accumStorage *[]string, initialState string, amountOpenedScopes int) {
+	if len(initialState) > amountOpenedScopes*2 {
+		return
+	}
 
 }
