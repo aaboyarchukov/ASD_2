@@ -264,7 +264,7 @@ func FindSecondMax(numbers []int) int {
 		max1 = numbers[1]
 		max2 = numbers[0]
 	}
-	return FindMax(numbers, 0, max1, max2)
+	return FindMax(numbers, 1, max1, max2)
 }
 
 func FindMax(numbers []int, point, max1, max2 int) int {
