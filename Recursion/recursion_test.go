@@ -145,33 +145,20 @@ func TestFindSecondMax(t *testing.T) {
 func TestFindFiles(t *testing.T) {
 	tests := []struct {
 		name        string
-		files       []interface{}
+		path        string
 		amountFiles int
 	}{
-		{"Test1", []interface{}{
-			"file.txt", []interface{}{
-				"file.txt",
-				"file.txt",
-				"file.txt",
-				[]interface{}{
-					"file.txt",
-					"file.txt",
-					"file.txt",
-				},
-				"file.txt",
-				"file.txt",
-				"file.txt",
-			},
-		}, 10},
+		{"Test1", "./files", 4},
 	}
 
 	for _, test := range tests {
-		var arrayOfFiles []string = FindFiles(test.files)
+		var arrayOfFiles []string = FindFiles(test.path)
 
 		if len(arrayOfFiles) != test.amountFiles {
 			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.amountFiles, len(arrayOfFiles))
 		}
 	}
+
 }
 
 func TestGenerateScopeCombinations(t *testing.T) {

@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 )
 
 // 1. возведение числа N в степень M
@@ -288,47 +289,38 @@ func FindMax(numbers []int, point, max1, max2 int) int {
 // mem = O(len(path) + depth), t = O(len(path)),
 // len(path) - amount of files and directories at path
 // depth - file nesting depth
-func FindFiles(path []interface{}) []string {
-
-	// Example:
-	// var mass []interface{} = []interface{}{
-	// 	"file.txt", []interface{}{
-	// 		"file.txt",
-	// 		"file.txt",
-	// 		"file.txt",
-	// 		[]interface{}{
-	// 			"file.txt",
-	// 			"file.txt",
-	// 			"file.txt",
-	// 		},
-	// 		"file.txt",
-	// 		"file.txt",
-	// 		"file.txt",
-	// 	},
-	// }
+func FindFiles(path string) []string {
 
 	var foundedFiles []string = make([]string, 0)
-	ForceThroughFiles(path, &foundedFiles, 0)
+	directory, err := os.ReadDir(path)
+	if err != nil {
+		return foundedFiles
+	}
+
+	ForceThroughFiles(path, directory, &foundedFiles, 0)
+
 	return foundedFiles
 }
 
-func ForceThroughFiles(path []interface{}, accumStorage *[]string, point int) {
-	if point >= len(path) {
+func ForceThroughFiles(path string, directory []os.DirEntry, accumStorage *[]string, point int) {
+	if point >= len(directory) {
 		return
 	}
-	switch path[point].(type) {
-	case []interface{}:
-		if array, ok := path[point].([]interface{}); ok {
-			ForceThroughFiles(array, accumStorage, 0)
-			ForceThroughFiles(path, accumStorage, point+1)
+
+	switch {
+	case directory[point].IsDir():
+		var currentPath string = fmt.Sprintf("%s/%s", path, directory[point].Name())
+		innerDirectory, err_get_direcdirectory := os.ReadDir(currentPath)
+		if err_get_direcdirectory != nil {
+			return
 		}
 
-	case string:
-		if row, ok := path[point].(string); ok {
-			*accumStorage = append(*accumStorage, row)
-			ForceThroughFiles(path, accumStorage, point+1)
-		}
+		ForceThroughFiles(currentPath, innerDirectory, accumStorage, 0)
+		ForceThroughFiles(path, directory, accumStorage, point+1)
 
+	case directory[point].Type().IsRegular():
+		*accumStorage = append(*accumStorage, directory[point].Name())
+		ForceThroughFiles(path, directory, accumStorage, point+1)
 	}
 
 }
