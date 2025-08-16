@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestPow(t *testing.T) {
 	tests := []struct {
@@ -135,7 +138,11 @@ func TestFindSecondMax(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		var secondMax int = FindSecondMax(test.numbers)
+		secondMax, err_find := FindSecondMax(test.numbers)
+		if err_find != nil && secondMax != test.secondMax {
+			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.secondMax, secondMax)
+
+		}
 
 		if secondMax != test.secondMax {
 			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.secondMax, secondMax)
@@ -162,5 +169,22 @@ func TestFindFiles(t *testing.T) {
 }
 
 func TestGenerateScopeCombinations(t *testing.T) {
+	tests := []struct {
+		name               string
+		amountOpenedScopes int
+		totalCombinations  int
+	}{
+		{"Test1", 1, 1},
+		{"Test2", 2, 2},
+		{"Test3", 3, 5},
+	}
 
+	for _, test := range tests {
+		var validCombinations []string = GenerateScopeCombinations(test.amountOpenedScopes)
+		fmt.Println(validCombinations)
+
+		if len(validCombinations) != test.totalCombinations {
+			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.totalCombinations, len(validCombinations))
+		}
+	}
 }

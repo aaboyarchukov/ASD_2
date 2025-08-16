@@ -247,13 +247,13 @@ func ProcessingEvenIndex(nums []int, index int) {
 // mem = O(len(numbers)), t = O(len(numbers)),
 // len(numbers) - size of nums
 
-func FindSecondMax(numbers []int) int {
+func FindSecondMax(numbers []int) (int, error) {
 	if len(numbers) == 0 {
-		return -1
+		return -1, fmt.Errorf("list is empty")
 	}
 
 	if len(numbers) == 1 {
-		return numbers[0]
+		return numbers[0], nil
 	}
 
 	var max1, max2 int
@@ -265,7 +265,7 @@ func FindSecondMax(numbers []int) int {
 		max1 = numbers[1]
 		max2 = numbers[0]
 	}
-	return FindMax(numbers, 1, max1, max2)
+	return FindMax(numbers, 1, max1, max2), nil
 }
 
 func FindMax(numbers []int, point, max1, max2 int) int {
@@ -331,13 +331,22 @@ func ForceThroughFiles(path string, directory []os.DirEntry, accumStorage *[]str
 
 func GenerateScopeCombinations(amountOpenedScopes int) []string {
 	var validCombinations []string = make([]string, 0)
-	GenerateCombinations(&validCombinations, "", amountOpenedScopes)
+	GenerateCombinations(&validCombinations, "", 0, 0, amountOpenedScopes)
 	return validCombinations
 }
 
-func GenerateCombinations(accumStorage *[]string, initialState string, amountOpenedScopes int) {
-	if len(initialState) > amountOpenedScopes*2 {
+func GenerateCombinations(accumStorage *[]string, currentState string, amountOpenedScopes, amountClosedScopes, maxScopes int) {
+	if len(currentState) == maxScopes*2 {
+		*accumStorage = append(*accumStorage, currentState)
 		return
+	}
+
+	if amountOpenedScopes < maxScopes {
+		GenerateCombinations(accumStorage, currentState+"(", amountOpenedScopes+1, amountClosedScopes, maxScopes)
+	}
+
+	if amountClosedScopes < amountOpenedScopes {
+		GenerateCombinations(accumStorage, currentState+")", amountOpenedScopes, amountClosedScopes+1, maxScopes)
 	}
 
 }
