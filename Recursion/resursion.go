@@ -297,7 +297,21 @@ func FindFiles(path string) ([]string, error) {
 		return foundedFiles, errGetDir
 	}
 
-	ForceThroughFiles(path, directory, &foundedFiles, 0)
+	for _, file := range directory {
+		switch {
+		case file.IsDir():
+			var currentPath string = fmt.Sprintf("%s/%s", path, file.Name())
+			nestedFiles, err_get_files := FindFiles(currentPath)
+			if err_get_files != nil {
+				return foundedFiles, err_get_files
+			}
+
+			foundedFiles = append(foundedFiles, nestedFiles...)
+
+		case file.Type().IsRegular():
+			foundedFiles = append(foundedFiles, file.Name())
+		}
+	}
 
 	return foundedFiles, nil
 }
