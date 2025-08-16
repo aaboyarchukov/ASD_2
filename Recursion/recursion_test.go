@@ -159,7 +159,12 @@ func TestFindFiles(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		var arrayOfFiles []string = FindFiles(test.path)
+		arrayOfFiles, errFindFiles := FindFiles(test.path)
+
+		if errFindFiles != nil && len(arrayOfFiles) > 0 {
+			t.Errorf("%s failed: wrong answer, list should be empty, because error: %s", test.name, errFindFiles.Error())
+
+		}
 
 		if len(arrayOfFiles) != test.amountFiles {
 			t.Errorf("%s failed: wrong answer, want: %v, result is: %v", test.name, test.amountFiles, len(arrayOfFiles))

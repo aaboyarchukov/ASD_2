@@ -289,17 +289,17 @@ func FindMax(numbers []int, point, max1, max2 int) int {
 // mem = O(len(path) + depth), t = O(len(path)),
 // len(path) - amount of files and directories at path
 // depth - file nesting depth
-func FindFiles(path string) []string {
+func FindFiles(path string) ([]string, error) {
 
 	var foundedFiles []string = make([]string, 0)
-	directory, err := os.ReadDir(path)
-	if err != nil {
-		return foundedFiles
+	directory, errGetDir := os.ReadDir(path)
+	if errGetDir != nil {
+		return foundedFiles, errGetDir
 	}
 
 	ForceThroughFiles(path, directory, &foundedFiles, 0)
 
-	return foundedFiles
+	return foundedFiles, nil
 }
 
 func ForceThroughFiles(path string, directory []os.DirEntry, accumStorage *[]string, point int) {
