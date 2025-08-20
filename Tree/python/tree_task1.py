@@ -10,7 +10,8 @@ class SimpleTree:
     def __init__(self, root):
         self.Root = root 
 	
-    def AddChild(self, ParentNode: SimpleTreeNode, NewChild: SimpleTreeNode):
+    # mem = O(1), t = O(1)
+    def AddChild(self, ParentNode, NewChild):
         if NewChild == None:
             return
         
@@ -20,7 +21,8 @@ class SimpleTree:
         
         NewChild.Parent = ParentNode
         ParentNode.Children.append(NewChild)
-  
+    
+    # mem = O(1), t = O(n)
     def DeleteNode(self, NodeToDelete):
         if NodeToDelete == None:
             return
@@ -34,6 +36,9 @@ class SimpleTree:
         NodeToDelete.Parent = None
         NodeToDelete.Children = []
 
+    # mem = O(n * h), t = O(n ^ 2)
+    # n = amount of nodes
+    # h = max depth of tree 
     def GetAllNodes(self):
         all_nodes = []
 
@@ -52,6 +57,9 @@ class SimpleTree:
 
         return all_nodes
 
+    # mem = O(n * h), t = O(n ^ 2)
+    # n = amount of nodes
+    # h = max depth of tree
     def FindNodesByValue(self, val):
         all_nodes_by_val = []
 
@@ -76,7 +84,8 @@ class SimpleTree:
 
         
         return all_nodes_by_val
-   
+    
+    # mem = O(1), t = O(1)
     def MoveNode(self, OriginalNode, NewParent):
         if NewParent == None or OriginalNode == None:
             return
@@ -86,9 +95,15 @@ class SimpleTree:
 
         self.AddChild(NewParent, OriginalNode)
    
+   # mem = O(n * h), t = O(n ^ 2)
+    # n = amount of nodes
+    # h = max depth of tree
     def Count(self):
         return len(self.GetAllNodes())
 
+    # mem = O(n * h), t = O(n ^ 2)
+    # n = amount of nodes
+    # h = max depth of tree
     def LeafCount(self):
         leaves = 0
 

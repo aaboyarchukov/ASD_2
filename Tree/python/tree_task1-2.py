@@ -3,12 +3,21 @@ from tree_task1 import SimpleTree, SimpleTreeNode
 class ExtendedSimpleTreeNode(SimpleTreeNode):
     def __init__(self, val, parent, level = 0):
         super().__init__(val, parent)
+        # Lesson 1 - Tree
+        # 2. Figure out how best to organize node-level support 
+        # without analyzing the entire tree. 
         self.Level = level
 
 class ExtendedSimpleTree(SimpleTree):
     def __init__(self, root):
         super().__init__(root)
 
+    # Lesson 1 - Tree
+    # 1. Write a method that iterates 
+    # through the entire tree and assigns each node its level.
+    # mem = O(n * h), t = O(n)
+    # n = amount of nodes
+    # h = max depth of tree
     def PrintTreeLevels_1(self, parent_level = 0):
         if self.Root == None:
             return 0
@@ -19,7 +28,13 @@ class ExtendedSimpleTree(SimpleTree):
                 root=children
             )
             current_tree.PrintTreeLevels_1(parent_level + 1)
-
+    
+    # Lesson 1 - Tree
+    # 1. Write a method that iterates 
+    # through the entire tree and assigns each node its level.
+    # mem = O(n * h), t = O(n)
+    # n = amount of nodes
+    # h = max depth of tree
     def PrintTreeLevels_2(self):
         if self.Root == None:
             return 0
@@ -31,6 +46,7 @@ class ExtendedSimpleTree(SimpleTree):
             )
             current_tree.PrintTreeLevels_2()
 
+    # mem = O(1), t = O(1)
     def AddChild(self, ParentNode, NewChild):
         if NewChild == None:
             return
@@ -42,6 +58,11 @@ class ExtendedSimpleTree(SimpleTree):
         NewChild.Parent = ParentNode
         ParentNode.Children.append(NewChild)
         NewChild.Level = ParentNode.Level + 1 
+    
+    # mem = O(1), t = O(1)
+    def GetNodeLevel(self, TargetNode):
+        return TargetNode.Level
+
 
 import unittest
 
