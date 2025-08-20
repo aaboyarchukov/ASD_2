@@ -122,3 +122,11 @@ class SimpleTree:
             leaves += current_tree.LeafCount()
         
         return leaves
+    
+
+
+
+
+
+
+    
