@@ -125,10 +125,12 @@ class BST:
             if self.is_leaf(successor):
                 successor.LeftChild, successor.RightChild = left_child, right_child
             
-            if find_node.Node == parent.RightChild:
+            if parent != None and find_node.Node == parent.RightChild:
                 parent.RightChild = successor
-            if find_node.Node == parent.LeftChild:
+            if parent != None and find_node.Node == parent.LeftChild:
                 parent.LeftChild = successor
+            if parent == None:
+                self.Root = successor
 
             find_node.Node.Parent = None
             find_node.Node.LeftChild = None
