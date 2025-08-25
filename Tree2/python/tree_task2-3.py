@@ -409,7 +409,6 @@ class TestBSTMethods(unittest.TestCase):
         child_6.RightChild = child_14
 
         self.assertEqual(tree.Root.RightChild, child_2)
-
         is_deleted = tree.DeleteNodeByKey(child_2.NodeKey)
         self.assertNotEqual(tree.Root.RightChild, child_2)
         self.assertEqual(tree.Root.RightChild, child_13)
@@ -427,6 +426,17 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(tree.Root, child_11)
         self.assertEqual(child_11.RightChild, child_13)
         self.assertEqual(child_11.LeftChild, child_1)
+        self.assertEqual(is_deleted, True)
+
+        tree2 = BST(
+            node=BSTNode(
+                key=8,
+                val=8,
+                parent=None
+            )
+        )
+
+        is_deleted = tree2.DeleteNodeByKey(8)
         self.assertEqual(is_deleted, True)
     
     def test_count_nodes(self):

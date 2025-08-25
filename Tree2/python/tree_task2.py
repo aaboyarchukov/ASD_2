@@ -98,39 +98,66 @@ class BST:
     # l = count of tree levels
     def DeleteNodeByKey(self, key):
         find_node = self.FindNodeByKey(key)
+        
         if find_node.NodeHasKey:
+            
+            if self.Count() == 1:
+                self.Root = None
+                return True
+            
             successor = None
             parent = find_node.Node.Parent
             left_child, right_child = find_node.Node.LeftChild, find_node.Node.RightChild
             
             if self.is_leaf(find_node.Node):
-                if find_node.Node == parent.RightChild:
-                    parent.RightChild = None
-                if find_node.Node == parent.LeftChild:
+                if parent.LeftChild == find_node.Node:
                     parent.LeftChild = None
+                elif parent.RightChild == find_node.Node:
+                    parent.RightChild = None
+
                 find_node.Node.Parent = None
-                find_node.Node.LeftChild = None
-                find_node.Node.RightChild = None
                 return True
             
-            elif find_node.Node.RightChild != None:
-                successor = self.FinMinMax(find_node.Node.RightChild, False) 
-            
-            elif find_node.Node.RightChild == None and find_node.Node.LeftChild != None:
+            elif find_node.Node.RightChild == None:
                 successor = self.FinMinMax(find_node.Node.LeftChild, True)
+            else:
+                successor = self.FinMinMax(find_node.Node.RightChild, False)
 
-           
-            successor.Parent = parent
-            
+            successorParent = successor.Parent
+            successorRightChild, successorLeftChild = successor.RightChild,successor.LeftChild
+
             if self.is_leaf(successor):
-                successor.LeftChild, successor.RightChild = left_child, right_child
+                if successorParent.LeftChild == successor:
+                    successorParent.LeftChild = None
+                elif successorParent.RightChild == successor:
+                    successorParent.RightChild = None
             
-            if parent != None and find_node.Node == parent.RightChild:
-                parent.RightChild = successor
-            if parent != None and find_node.Node == parent.LeftChild:
-                parent.LeftChild = successor
+            elif successorRightChild != None:
+                successorRightChild.Parent = successorParent
+                if successorParent.LeftChild == successor:
+                    successorParent.LeftChild = successorRightChild
+                elif successorParent.RightChild == successor:
+                    successorParent.RightChild = successorRightChild
+                    
+            
+            elif successorLeftChild != None:
+                successorLeftChild.Parent = successorParent
+                if successorParent.LeftChild == successor:
+                    successorParent.LeftChild = successorLeftChild
+                elif successorParent.RightChild == successor:
+                    successorParent.RightChild = successorLeftChild
+                
+            
+            
+            successor.LeftChild, successor.RightChild = left_child, right_child
             if parent == None:
                 self.Root = successor
+            elif parent.LeftChild == find_node.Node:
+                parent.LeftChild = successor
+            elif parent.RightChild == find_node.Node:
+                parent.RightChild = successor
+            
+           
 
             find_node.Node.Parent = None
             find_node.Node.LeftChild = None
@@ -139,7 +166,7 @@ class BST:
 
         return False 
     
-    def is_leaf(slef, Node):
+    def is_leaf(self, Node):
         return Node.LeftChild == None and Node.RightChild == None
 
     # mem = O(n), t = O(n)
@@ -148,14 +175,15 @@ class BST:
         return self.count_nodes(self.Root) 
     
     def count_nodes(self, target_node):
+        if target_node == None:
+            return 0
+        
         if self.is_leaf(target_node):
             return 1
         
         right_side_nodes, left_side_nodes = 0, 0
-        if target_node.RightChild != None:
-            right_side_nodes = self.count_nodes(target_node.RightChild)
-        if target_node.LeftChild != None:
-            left_side_nodes = self.count_nodes(target_node.LeftChild)
+        right_side_nodes = self.count_nodes(target_node.RightChild)
+        left_side_nodes = self.count_nodes(target_node.LeftChild)
         
         amount_nodes = right_side_nodes + left_side_nodes + 1
         
