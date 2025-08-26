@@ -143,6 +143,11 @@ class TestBSTMethods(unittest.TestCase):
             key = 4,
             val = 4
         )
+
+        find_node = tree.FindNodeByKey(4)
+        self.assertEqual(find_node.NodeHasKey, True)
+        self.assertEqual(find_node.ToLeft, False)
+
         tree.AddKeyValue(
             key = 12,
             val = 12
@@ -218,6 +223,27 @@ class TestBSTMethods(unittest.TestCase):
             key = 15,
             val = 15
         )
+
+        find_node = tree.FindNodeByKey(9)
+        self.assertEqual(find_node.NodeHasKey, True)
+        self.assertEqual(find_node.ToLeft, False)
+
+        tree2 = BST(
+            node=None
+        )
+
+        find_node = tree2.FindNodeByKey(20)
+        self.assertEqual(tree2.Root, None)
+        self.assertEqual(find_node.NodeHasKey, False)
+        self.assertEqual(find_node.ToLeft, False)
+
+        tree2.AddKeyValue(20, 20)
+        find_node = tree2.FindNodeByKey(20)
+        self.assertNotEqual(tree2.Root, None)
+        self.assertEqual(find_node.NodeHasKey, True)
+        self.assertEqual(tree2.Root.NodeKey, 20)
+        self.assertEqual(tree2.Root.NodeValue, 20)
+        self.assertEqual(find_node.ToLeft, False)
     
     def test_find_min_max(self):
         tree = BST(

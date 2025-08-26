@@ -24,6 +24,13 @@ class BST:
     # mem = O(log(n)), t = O(log(n))
     # n = count of nodes
     def FindNodeByKey(self, key):
+        if self.Root == None:
+            find_node = BSTFind()
+            find_node.NodeHasKey = False
+            find_node.Node = None
+            find_node.ToLeft = False
+            return find_node
+        
         return self.find_node_by_key(self.Root, key)
     
     def find_node_by_key(self, target_node: BSTNode, key):
@@ -34,8 +41,7 @@ class BST:
             find_node.NodeHasKey = True
             find_node.ToLeft = False 
             
-        
-        if key > target_node.NodeKey:
+        elif key > target_node.NodeKey:
             if target_node.RightChild == None:
                 find_node.Node = target_node
                 find_node.NodeHasKey = False
@@ -63,8 +69,11 @@ class BST:
             parent=None
         )
 
+        if self.Root == None:
+            self.Root = added_node
+            return True
+        
         find_node = self.FindNodeByKey(key)
-
         if not find_node.NodeHasKey:
             added_node.Parent = find_node.Node
 
@@ -73,7 +82,8 @@ class BST:
             else:
                 find_node.Node.RightChild = added_node
             
-        
+            return True
+
         return False 
     
     # mem = O(l), t = O(l)
