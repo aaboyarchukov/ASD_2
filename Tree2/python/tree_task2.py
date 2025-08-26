@@ -39,7 +39,8 @@ class BST:
         if target_node.NodeKey == key:    
             find_node.Node = target_node
             find_node.NodeHasKey = True
-            find_node.ToLeft = False 
+            find_node.ToLeft = False
+            return find_node 
             
         elif key > target_node.NodeKey:
             if target_node.RightChild == None:
@@ -57,6 +58,24 @@ class BST:
                 find_node = self.find_node_by_key(target_node.LeftChild, key)
         
         return find_node
+    
+    def check_tree_integrity(self):
+        visited = set()
+        queue = [self.Root]
+        while queue:
+            node = queue.pop(0)
+            if node is None:
+                continue
+            assert node not in visited, f"Цикл в дереве на узле {node.NodeKey}"
+            visited.add(node)
+
+            if node.LeftChild:
+                assert node.LeftChild.Parent == node, f"У {node.LeftChild.NodeKey} неправильный Parent"
+                queue.append(node.LeftChild)
+            if node.RightChild:
+                assert node.RightChild.Parent == node, f"У {node.RightChild.NodeKey} неправильный Parent"
+                queue.append(node.RightChild)
+        return True
 
 
         
@@ -109,75 +128,65 @@ class BST:
     def DeleteNodeByKey(self, key):
         find_node = self.FindNodeByKey(key)
         
-        if find_node.NodeHasKey:
-            
-            if self.Count() == 1:
-                self.Root = None
-                return True
-            
-            successor = None
-            parent = find_node.Node.Parent
-            left_child, right_child = find_node.Node.LeftChild, find_node.Node.RightChild
-            
-            if self.is_leaf(find_node.Node):
-                if parent.LeftChild == find_node.Node:
-                    parent.LeftChild = None
-                elif parent.RightChild == find_node.Node:
-                    parent.RightChild = None
+        if not find_node.NodeHasKey:
+            return False
+        
+        if self.Count() == 1:
+            self.Root = None
+            return True
+        
+        node_to_delete = find_node.Node
+        successor = None
+        parent = node_to_delete.Parent 
+        left_child, right_child = node_to_delete.LeftChild, node_to_delete.RightChild # Node or None
+        
+        if self.is_leaf(node_to_delete):
+            if parent.LeftChild == node_to_delete:
+                parent.LeftChild = None
+            elif parent.RightChild == node_to_delete:
+                parent.RightChild = None
 
-                find_node.Node.Parent = None
-                return True
-            
-            elif find_node.Node.RightChild == None:
-                successor = self.FinMinMax(find_node.Node.LeftChild, True)
+            node_to_delete.Parent = None
+            return True
+        
+        elif left_child == None or right_child == None:
+            if left_child == None:
+                if parent == None:
+                    self.Root = right_child
+                elif node_to_delete == parent.LeftChild:
+                    parent.LeftChild = right_child
+                else:
+                    parent.RightChild = right_child
+                right_child.Parent = parent
             else:
-                successor = self.FinMinMax(find_node.Node.RightChild, False)
+                if parent == None:
+                    self.Root = left_child
+                elif node_to_delete == parent.LeftChild:
+                    parent.LeftChild = left_child
+                else:
+                    parent.RightChild = left_child
+                left_child.Parent = parent
+        else:
+            successor = self.FinMinMax(node_to_delete.RightChild, False)
 
             successorParent = successor.Parent
-            successorRightChild, successorLeftChild = successor.RightChild,successor.LeftChild
+            node_to_delete.NodeKey = successor.NodeKey
+            node_to_delete.NodeValue = successor.NodeValue
 
-            if self.is_leaf(successor):
-                if successorParent.LeftChild == successor:
-                    successorParent.LeftChild = None
-                elif successorParent.RightChild == successor:
-                    successorParent.RightChild = None
-            
-            elif successorRightChild != None:
-                successorRightChild.Parent = successorParent
-                if successorParent.LeftChild == successor:
-                    successorParent.LeftChild = successorRightChild
-                elif successorParent.RightChild == successor:
-                    successorParent.RightChild = successorRightChild
-                    
-            
-            elif successorLeftChild != None:
-                successorLeftChild.Parent = successorParent
-                if successorParent.LeftChild == successor:
-                    successorParent.LeftChild = successorLeftChild
-                elif successorParent.RightChild == successor:
-                    successorParent.RightChild = successorLeftChild
-                
-            
-            
-            successor.LeftChild, successor.RightChild = left_child, right_child
-            if parent == None:
-                self.Root = successor
-            elif parent.LeftChild == find_node.Node:
-                parent.LeftChild = successor
-            elif parent.RightChild == find_node.Node:
-                parent.RightChild = successor
-            
-           
+            if successorParent.RightChild == successor:
+                successorParent.RightChild = successor.RightChild
+            else:
+                successorParent.LeftChild = successor.RightChild
+            if successor.RightChild != None:
+                successor.RightChild.Parent = successorParent
 
-            find_node.Node.Parent = None
-            find_node.Node.LeftChild = None
-            find_node.Node.RightChild = None
-            return True
-
-        return False 
+        return True
     
     def is_leaf(self, Node):
         return Node.LeftChild == None and Node.RightChild == None
+    
+    def is_child(self, Parent,  Node):
+        return Parent.RightChild == Node or Parent.LeftChild == Node 
 
     # mem = O(n), t = O(n)
     # n = count of nodes
