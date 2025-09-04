@@ -12,7 +12,7 @@ class TestaBSTMethods(unittest.TestCase):
 
     def test_find_key_index(self):
         tree = aBST(
-            depth=4
+            depth=3
         )
 
         tree.Tree = [50, 25, 75, None, 37, 62, 84, None, None, 31, 43, 55, None, None, 92]
@@ -30,7 +30,7 @@ class TestaBSTMethods(unittest.TestCase):
         
     def test_add_key(self):
         tree = aBST(
-            depth=4
+            depth=3
         )
 
         test_tree = [50, 25, 75, None, 37, 62, 84, None, None, 31, 43, 55, None, None, 92]

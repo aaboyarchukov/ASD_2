@@ -47,7 +47,7 @@ import unittest
 class TestaBSTMethods(unittest.TestCase):
     def setUp(self):
         self.tree = ExtendedaBST(
-            depth=4
+            depth=3
         )
 
         for key in [50, 25, 75, 37, 62, 84, 31, 43, 55, 92]:
@@ -64,4 +64,3 @@ if __name__ == "__main__":
     unittest.main()
 
 
-    
