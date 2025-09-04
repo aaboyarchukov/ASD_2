@@ -28,11 +28,17 @@ class aBST:
     def AddKey(self, key):
         find_indx = self.FindKeyIndex(key)
 
-        if find_indx != None and (find_indx < 0 or (find_indx == 0 and self.Tree[find_indx] == None)):
+        if find_indx == None:
+            return -1
+
+        if find_indx < 0 or (find_indx == 0 and self.Tree[find_indx] == None):
             self.Tree[-find_indx] = key
             return -find_indx
         
-        return -1
+        return find_indx
+    
+
+    
     
 
 

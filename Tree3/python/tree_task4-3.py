@@ -34,11 +34,18 @@ class TestaBSTMethods(unittest.TestCase):
         )
 
         test_tree = [50, 25, 75, None, 37, 62, 84, None, None, 31, 43, 55, None, None, 92]
-
+        
         for key in [50, 25, 75, 37, 62, 84, 31, 43, 55, 92]:
             finded_indx = tree.AddKey(key)
             self.assertEqual(tree.Tree[finded_indx], test_tree[finded_indx])
         
+        for indx, key in enumerate(test_tree):
+            if key is None:
+                continue
+
+            finded_indx = tree.AddKey(key)
+            self.assertEqual(finded_indx, indx)
+
         self.assertEqual(tree.Tree, test_tree)
 
         test_full_tree = [50, 25, 75, 19, 37, 62, 84, 15, 24, 31, 43, 55, 65, 76, 92]
