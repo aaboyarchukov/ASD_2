@@ -22,7 +22,12 @@ class TestaBSTMethods(unittest.TestCase):
                 continue
 
             self.assertEqual(tree.FindKeyIndex(key), indx)
-    
+        
+        for additional_key in [76, 65, 19, 24, 15]:
+            finded_indx = tree.FindKeyIndex(additional_key)
+            result_indx = tree.AddKey(additional_key)
+            self.assertEqual(-finded_indx, result_indx)
+        
     def test_add_key(self):
         tree = aBST(
             depth=4
@@ -55,4 +60,3 @@ if __name__ == "__main__":
 
 
 
-    
