@@ -4,6 +4,8 @@ class aBST:
         tree_size = (2 ** depth) - 1
         self.Tree = [None] * tree_size
 	
+    # mem = O(1), t = O(k)
+    # k = depth
     def FindKeyIndex(self, key):
         head_indx = 0
         amount_of_nodes = len(self.Tree)
@@ -21,6 +23,8 @@ class aBST:
         
         return None
 	
+    # mem = O(1), t = O(k)
+    # k = depth
     def AddKey(self, key):
         find_indx = self.FindKeyIndex(key)
 
@@ -32,4 +36,3 @@ class aBST:
     
 
 
-    
