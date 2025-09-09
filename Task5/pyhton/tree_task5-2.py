@@ -1,13 +1,20 @@
 from tree_task5 import GenerateBBSTArray, generate_helper
 import math
 
+# Lesson5 - aBST
+# Implement a method for deleting a node from a binary tree 
+# specified as an array. 
+# Despite the absence of empty spaces, 
+# the method must correctly rebuild the tree while maintaining the balance.
+# mem = O(k), t = O(k)
+# k = len of array
 def DeleteNodeFromaBBST(node, tree):
     if node not in tree:
         return tree
 
     tree.remove(node)
     tree.append(None)
-    
+
     return rebuild_tree(tree)
 
 def rebuild_tree(a):

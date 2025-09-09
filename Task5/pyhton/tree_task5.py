@@ -1,3 +1,6 @@
+# mem = O(n), t = O(n + n * 1 + d)
+# n - len(array)
+# d - depth of tree
 def GenerateBBSTArray(a):
     array_size = len(a)
     result_tree = [None] * array_size
