@@ -1,6 +1,6 @@
 import unittest
 from collections import deque
-from tree_task6 import BalancedBST
+from tree_task6 import BalancedBST, BSTNode
 
 def print_tree_with_branches(root):
     if root is None:
@@ -52,11 +52,18 @@ class TestBST(unittest.TestCase):
         tree.GenerateTree([50, 25, 15, 62, 75, 84])
         print_tree_with_branches(tree.Root)
     
-    def test_correct_tree(self):
+    def test_is_tree_balanced(self):
         tree = BalancedBST()
         tree.GenerateTree([50, 25, 15, 62, 75, 84])
         print_tree_with_branches(tree.Root)
-        self.assertEqual(True, tree.IsCorrectTree())
+        self.assertEqual(True, tree.IsBalanced(tree.Root))
+
+        root = BSTNode(1, parent=None)
+        root.LeftChild = BSTNode(2, parent=root)
+        root.LeftChild.LeftChild = BSTNode(3, parent=root.LeftChild)
+        tree = BalancedBST(root)
+        self.assertFalse(tree.IsBalanced(tree.Root))
+    
 
 if __name__ == "__main__":
     unittest.main()

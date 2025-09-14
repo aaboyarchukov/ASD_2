@@ -51,6 +51,32 @@ class BalancedBST:
 
         return node
     
+    # mem = O(n), t = O(n * m)
+    # n - recursive calls
+    # m - recursive calls for each resursive call
+    def IsBalanced(self, root_node):
+        if root_node == None:
+            return True
+        
+        left_tree_level = self.max_level(root_node.LeftChlid)
+        right_tree_level = self.max_level(root_node.RightChlid)
+
+        if abs(left_tree_level - right_tree_level) > 1:
+            return False
+        
+        return self.IsBalanced(root_node.LeftChild) and self.IsBalanced(root_node.RightChild)
+
+    def max_level(self, node):
+        if node == None:
+            return 0
+        if node.LeftChild == None and node.RightChlid == None:
+            return node.Level
+        
+        return max(self.max_level(node.LeftChild), self.max_level(node.RightChild))
+
+
+
+    
 
 
 

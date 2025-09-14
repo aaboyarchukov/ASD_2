@@ -112,18 +112,6 @@ class TestBST(unittest.TestCase):
         tree.GenerateTree([])
         print_tree_with_branches(tree.Root)
         self.assertEqual(True, tree.IsCorrectTree())
-    
-    def test_is_tree_balanced(self):
-        tree = ExtendedBST()
-        tree.GenerateTree([50, 25, 15, 62, 75, 84])
-        print_tree_with_branches(tree.Root)
-        self.assertEqual(True, tree.IsBalanced(tree.Root))
-
-        root = BSTNode(1, parent=None)
-        root.LeftChild = BSTNode(2, parent=root)
-        root.LeftChild.LeftChild = BSTNode(3, parent=root.LeftChild)
-        tree = ExtendedBST(root)
-        self.assertFalse(tree.IsBalanced(tree.Root))
 
 
 
