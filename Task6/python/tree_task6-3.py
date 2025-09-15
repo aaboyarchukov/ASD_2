@@ -61,7 +61,9 @@ class TestBST(unittest.TestCase):
         root = BSTNode(1, parent=None)
         root.LeftChild = BSTNode(2, parent=root)
         root.LeftChild.LeftChild = BSTNode(3, parent=root.LeftChild)
-        tree = BalancedBST(root)
+        root.LeftChild.LeftChild.LeftChild = BSTNode(4, parent=root.LeftChild.LeftChild)
+        tree = BalancedBST()
+        tree.Root = root
         self.assertFalse(tree.IsBalanced(tree.Root))
     
 
