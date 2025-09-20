@@ -4,11 +4,45 @@ from heap_task7 import Heap
 class TestHeap(unittest.TestCase):
     def setUp(self):        
         self.Heap = Heap
+    
+    def test_empty_input_produces_empty_heap(self):
+        h = Heap()
+        h.MakeHeap([], 3)
+        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None], "Полнота массива зависит от глубины")
+
+    def test_zero_depth_produces_empty_heap(self):
+        h = Heap()
+        h.MakeHeap([1, 2, 3], 0)
+        self.assertEqual(h.HeapArray, [], "depth == 0 должен приводить к пустой HeapArray")
+
+    def test_heap_capacity_matches_depth(self):
+        h = Heap()
+        data = list(range(20))
+        for depth in (1, 2, 3, 4, 5):
+            expected_size = (2 ** depth) - 1
+            h.MakeHeap(data, depth)
+            self.assertEqual(
+                len(h.HeapArray),
+                expected_size,
+                f"Неверный размер кучи для depth={depth}: ожидали {expected_size}, получили {len(h.HeapArray)}"
+            )
+
+    def test_heap_size_independent_of_none_entries(self):
+        h = Heap()
+        data = [1, None, 2, None, 3]
+        depth = 3
+        expected_size = (2 ** depth) - 1
+        h.MakeHeap(data, depth)
+        self.assertEqual(
+            len(h.HeapArray),
+            expected_size,
+            "MakeHeap должен выделять место согласно depth независимо от наличия None в входном списке"
+        )
 
     def test_empty_array(self):
         h = self.Heap()
         h.MakeHeap([], 3)
-        self.assertEqual(h.HeapArray, [])
+        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None])
 
     def test_zero_depth(self):
         h = self.Heap()

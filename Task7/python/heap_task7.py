@@ -6,9 +6,10 @@ class Heap:
     # mem = O(((2 ** depth) - 1)), t = O(n*log(n))
     # n = (2 ** depth) - 1
     def MakeHeap(self, a, depth):
-        if len(a) == 0 or depth == 0:
+        if depth == 0:
             self.HeapArray = []
             return
+        
         
         self.HeapArray = [None] * ((2 ** depth) - 1)
 
@@ -17,6 +18,7 @@ class Heap:
         for current_element in a:
             if not self.Add(current_element):
                 break
+
     # mem = O(1), t = O(log(n))
     def shift_up(self, current_index, key):
         while current_index >= 0:
