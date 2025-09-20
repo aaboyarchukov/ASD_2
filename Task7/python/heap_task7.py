@@ -3,15 +3,10 @@ class Heap:
     def __init__(self):
         self.HeapArray = [] 
 	
-    # mem = O(((2 ** depth) - 1)), t = O(n*log(n))
-    # n = (2 ** depth) - 1
+    # mem = O(((2 ** (depth + 1)) - 1)), t = O(n*log(n))
+    # n = (2 ** (depth + 1)) - 1
     def MakeHeap(self, a, depth):
-        if depth == 0:
-            self.HeapArray = []
-            return
-        
-        
-        self.HeapArray = [None] * ((2 ** depth) - 1)
+        self.HeapArray = [None] * ((2 ** (depth + 1)) - 1)
 
         a = list(filter(lambda x: x != None, a))
 

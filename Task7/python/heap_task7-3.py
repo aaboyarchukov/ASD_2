@@ -8,18 +8,18 @@ class TestHeap(unittest.TestCase):
     def test_empty_input_produces_empty_heap(self):
         h = Heap()
         h.MakeHeap([], 3)
-        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None], "Полнота массива зависит от глубины")
+        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None], "Полнота массива зависит от глубины")
 
     def test_zero_depth_produces_empty_heap(self):
         h = Heap()
         h.MakeHeap([1, 2, 3], 0)
-        self.assertEqual(h.HeapArray, [], "depth == 0 должен приводить к пустой HeapArray")
+        self.assertEqual(h.HeapArray, [1], "depth == 0 должен приводить к HeapArray с одним элементом")
 
     def test_heap_capacity_matches_depth(self):
         h = Heap()
         data = list(range(20))
         for depth in (1, 2, 3, 4, 5):
-            expected_size = (2 ** depth) - 1
+            expected_size = (2 ** (depth + 1)) - 1
             h.MakeHeap(data, depth)
             self.assertEqual(
                 len(h.HeapArray),
@@ -31,7 +31,7 @@ class TestHeap(unittest.TestCase):
         h = Heap()
         data = [1, None, 2, None, 3]
         depth = 3
-        expected_size = (2 ** depth) - 1
+        expected_size = (2 ** (depth + 1)) - 1
         h.MakeHeap(data, depth)
         self.assertEqual(
             len(h.HeapArray),
@@ -42,22 +42,22 @@ class TestHeap(unittest.TestCase):
     def test_empty_array(self):
         h = self.Heap()
         h.MakeHeap([], 3)
-        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None])
+        self.assertEqual(h.HeapArray, [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None])
 
     def test_zero_depth(self):
         h = self.Heap()
         h.MakeHeap([1, 2, 3], 0)
-        self.assertEqual(h.HeapArray, [])
+        self.assertEqual(h.HeapArray, [1])
 
     def test_single_element(self):
         h = self.Heap()
         h.MakeHeap([42], 1)
-        self.assertEqual(h.HeapArray, [42])
+        self.assertEqual(h.HeapArray, [42, None, None])
 
     def test_multiple_elements(self):
         h = self.Heap()
         h.MakeHeap([3, 1, 6, 5, 2, 4], 3)
-        self.assertEqual(len(h.HeapArray), 7)
+        self.assertEqual(len(h.HeapArray), 15)
         for i in range(len(h.HeapArray)//2):
             if h.HeapArray[i] is not None:
                 left = 2*i + 1
@@ -70,7 +70,7 @@ class TestHeap(unittest.TestCase):
     def test_array_longer_than_heap(self):
         h = self.Heap()
         h.MakeHeap([9, 8, 7, 6, 5], 2)
-        self.assertEqual(len(h.HeapArray), 3)
+        self.assertEqual(len(h.HeapArray), 7)
         self.assertEqual(h.HeapArray[0], max(filter(lambda x: x is not None, h.HeapArray)))
     
     def test_getmax_empty_heap(self):
@@ -79,13 +79,13 @@ class TestHeap(unittest.TestCase):
 
     def test_getmax_single_element(self):
         h = self.Heap()
-        h.MakeHeap([42], 1)
+        h.MakeHeap([42], 0)
         self.assertEqual(h.GetMax(), 42)
         self.assertEqual(h.HeapArray, []) 
 
     def test_getmax_multiple_elements(self):
         h = self.Heap()
-        h.MakeHeap([3, 1, 6, 5, 2, 4], 3)
+        h.MakeHeap([3, 1, 6, 5, 2, 4], 2)
         max_val = h.GetMax()
         self.assertEqual(max_val, 6)
         
@@ -100,7 +100,7 @@ class TestHeap(unittest.TestCase):
 
     def test_getmax_repeated_calls(self):
         h = self.Heap()
-        h.MakeHeap([10, 20, 5, 7, 30], 3)
+        h.MakeHeap([10, 20, 5, 7, 30], 2)
         results = []
         while True:
             val = h.GetMax()
