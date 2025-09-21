@@ -57,7 +57,6 @@ class TestHeap(unittest.TestCase):
     def test_multiple_elements(self):
         h = self.Heap()
         h.MakeHeap([3, 1, 6, 5, 2, 4], 3)
-        print(h.HeapArray)
         self.assertEqual(len(h.HeapArray), 15)
         for i in range(len(h.HeapArray)//2):
             if h.HeapArray[i] is not None:
@@ -139,6 +138,15 @@ class TestHeap(unittest.TestCase):
         h.HeapArray = [15, 10, 12, None, None, None, None]
         self.assertTrue(h.IsCorrectHeap(), "Куча с None в конце должна считаться корректной")
 
+    def test_add_after_get_max(self):
+        heap = Heap()
+        heap.MakeHeap([11, 9, 4, 7, 8, 3, 1, 6, 2, 5], 3)
+        print("heap: ", heap.HeapArray)
+        self.assertEqual(heap.GetMax(), 11)
+        print("heap: ", heap.HeapArray)
+        heap.Add(11) 
+        print("heap: ", heap.HeapArray)
+        
 
 if __name__ == "__main__":
     unittest.main()

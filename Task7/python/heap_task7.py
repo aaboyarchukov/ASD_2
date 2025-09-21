@@ -67,7 +67,13 @@ class Heap:
             return -1
         
         max_element = self.HeapArray[0]
-        target_key = self.HeapArray.pop()
+        if heap_size == 1:
+            self.HeapArray = []
+            self.size = 0
+            return max_element
+        
+        target_key = self.HeapArray[self.size-1]
+        self.HeapArray[self.size-1] = None
         self.size -= 1
         
         self.shift_down(0, target_key)
