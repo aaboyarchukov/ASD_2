@@ -2,10 +2,16 @@ class Heap:
 
     def __init__(self):
         self.HeapArray = [] 
+        self.size = 0
 	
     # mem = O(((2 ** (depth + 1)) - 1)), t = O(n*log(n))
     # n = (2 ** (depth + 1)) - 1
     def MakeHeap(self, a, depth):
+        if depth < 0:
+            self.HeapArray = []
+            self.size = 0
+            return
+        
         self.HeapArray = [None] * ((2 ** (depth + 1)) - 1)
 
         a = list(filter(lambda x: x != None, a))
@@ -15,16 +21,20 @@ class Heap:
                 break
 
     # mem = O(1), t = O(log(n))
-    def shift_up(self, current_index, key):
-        while current_index >= 0:
+    def shift_up(self, key):
+        current_index = self.size
+
+        while current_index > 0:
             parent_index = (current_index - 1) // 2
             
-            if current_index == 0 or (self.HeapArray[parent_index] != None and self.HeapArray[parent_index] >= key):
-                self.HeapArray[current_index] = key
+            if self.HeapArray[parent_index] is not None and self.HeapArray[parent_index] >= key:
                 break
             
-            self.HeapArray[parent_index], self.HeapArray[current_index] = key, self.HeapArray[parent_index]
+            self.HeapArray[current_index] = self.HeapArray[parent_index]
             current_index = parent_index
+        
+        self.HeapArray[current_index] = key
+
     # mem = O(1), t = O(log(n))
     def shift_down(self, current_index, key):
         if len(self.HeapArray) == 0:
@@ -58,17 +68,18 @@ class Heap:
         
         max_element = self.HeapArray[0]
         target_key = self.HeapArray.pop()
+        self.size -= 1
         
         self.shift_down(0, target_key)
         return max_element 
     
     # mem = O(1), t = O(log(n))
     def Add(self, key):
-        current_index = len(self.HeapArray) - 1
-        if self.HeapArray[current_index] != None:
+        if self.size >= len(self.HeapArray):
             return False
         
-        self.shift_up(current_index, key)
+        self.shift_up(key)
+        self.size += 1
         
         return True
     # mem = O(1), t = O(n)

@@ -57,6 +57,7 @@ class TestHeap(unittest.TestCase):
     def test_multiple_elements(self):
         h = self.Heap()
         h.MakeHeap([3, 1, 6, 5, 2, 4], 3)
+        print(h.HeapArray)
         self.assertEqual(len(h.HeapArray), 15)
         for i in range(len(h.HeapArray)//2):
             if h.HeapArray[i] is not None:
