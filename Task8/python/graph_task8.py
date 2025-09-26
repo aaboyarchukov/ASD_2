@@ -46,3 +46,9 @@ class SimpleGraph:
     def RemoveEdge(self, v1, v2):
         self.m_adjacency[v1][v2] = 0
         self.m_adjacency[v2][v1] = 0
+
+
+
+
+
+        
