@@ -328,9 +328,44 @@ class TestTreeMethods(unittest.TestCase):
 
         self.assertEqual(tree.Count(), 6)
         edges = tree.EvenTrees()
-        self.assertIn((root, n3), edges)
-        self.assertEqual(len(edges), 1)
+        self.assertIn(root, edges)
+        self.assertIn(n3, edges)
+        self.assertEqual(len(edges), 2)
+    def test_event_tree(self):
+        root = forest_task9.SimpleTreeNode(1, None)
+        tree = forest_task9.SimpleTree(root)
+        
+        n2 = forest_task9.SimpleTreeNode(2, root)
+        n3 = forest_task9.SimpleTreeNode(3, root)
+        n6 = forest_task9.SimpleTreeNode(6, root)
+        root.Children.append(n2)
+        root.Children.append(n3)
+        root.Children.append(n6)
 
+        
+
+        n5 = forest_task9.SimpleTreeNode(5, n2)
+        n7 = forest_task9.SimpleTreeNode(7, n2)
+        n2.Children.append(n5)
+        n2.Children.append(n7)
+        
+        
+        n4 = forest_task9.SimpleTreeNode(4, n3)
+        n3.Children.append(n4)
+        
+        
+        n8 = forest_task9.SimpleTreeNode(8, n6)
+        n6.Children.append(n8)
+        
+        n9 = forest_task9.SimpleTreeNode(9, n8)
+        n10 = forest_task9.SimpleTreeNode(10, n8)
+        n8.Children.append(n9)
+        n8.Children.append(n10)
+
+        edges = tree.EvenTrees()
+        self.assertEqual(len(edges), 4)  
+        
+        
     def test_big_tree(self):
         root = forest_task9.SimpleTreeNode(1, None)
         tree = forest_task9.SimpleTree(root)
@@ -352,10 +387,13 @@ class TestTreeMethods(unittest.TestCase):
 
         self.assertEqual(tree.Count(), 8)
         edges = tree.EvenTrees()
-        self.assertEqual(len(edges), 3)
-        self.assertIn((n4, n6), edges)  
-        self.assertIn((n2, n4), edges)  
-        self.assertIn((root, n2), edges)  
+        self.assertEqual(len(edges), 6)
+        self.assertIn(n4, edges)  
+        self.assertIn(n6, edges)  
+        self.assertIn( n4, edges)  
+        self.assertIn(n2, edges)  
+        self.assertIn(root, edges)  
+        self.assertIn(n2, edges)  
 
 if __name__ == "__main__":
     unittest.main()

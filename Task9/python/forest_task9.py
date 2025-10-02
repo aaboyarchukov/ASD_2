@@ -138,7 +138,8 @@ class SimpleTree:
         for child in current_node.Children:
             child_size = self.dfs_for_even_trees(child, edges)
             if child_size % 2 == 0:
-                edges.append((current_node, child))
+                edges.append(current_node)
+                edges.append(child)
             else:
                 size += child_size
         return size
